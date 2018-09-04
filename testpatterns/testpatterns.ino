@@ -22,15 +22,15 @@ const byte MODULE_2 = 13;     // (22)
 //         MODULE_5           // (28)
 
 // helper constants
-const byte MODULE_PINS[] = {MODULE_1, MODULE_2}; // TODO extend when a board with enough i/o ports is available
+const byte MODULE_PINS[] = {MODULE_1, MODULE_2}; // TODO extend when a board with enough i/o ports (e.g. ESP32) is available
 const byte COLUMN_BIT_PINS[] = {COLUMN_1, COLUMN_2, COLUMN_3, COLUMN_4, COLUMN_5};
 const byte ROW_BIT_PINS[] = {ROW_1, ROW_2, ROW_3, ROW_4};
 const byte MODULE_HEIGHT = 16;
-const byte MODULE_WIDTH_SMALL = 14;
-const byte MODULE_WIDTH_LARGE = 28;
+const byte MODULE_WIDTH = 28;
+const byte COLUMN_OFFSET_SHORT_MODULE = 14;
 
 // program config
-const int PAUSE_BETWEEN_DOT_FLIPS_IN_MS = 250; // TODO decrease slowly to measure maximum current draw
+const int PAUSE_BETWEEN_DOT_FLIPS_IN_MS = 2; // lowest value to reliably flip all dots with 5A power supply (lights off)
 const int PAUSE_BETWEEN_PATTERNS_IN_MS = 5000;
 
 void loop() {
@@ -55,7 +55,7 @@ void flipDisplayAlternating(boolean startWithYellow) {
 
 boolean flipModuleAlternating(byte moduleIndex, boolean startWithYellow) {
   boolean nextDotIsYellow = startWithYellow;
-  for (byte columnIndex = 0; columnIndex < getColumnsOnModule(moduleIndex); columnIndex++) {
+  for (byte columnIndex = getStartColumnOfModule(moduleIndex); columnIndex < MODULE_WIDTH; columnIndex++) {
     nextDotIsYellow = flipColumnAlternating(moduleIndex, columnIndex, nextDotIsYellow);
   }
   return nextDotIsYellow;
@@ -67,7 +67,7 @@ boolean flipColumnAlternating(byte moduleIndex, byte columnIndex, boolean startW
     flipDot(moduleIndex, rowIndex, columnIndex, shouldShowYellow);
     shouldShowYellow = !shouldShowYellow;
   }
-  return shouldShowYellow;
+  return !shouldShowYellow;
 }
 
 void flipDisplay(boolean shouldShowYellow) {
@@ -77,16 +77,16 @@ void flipDisplay(boolean shouldShowYellow) {
 }
 
 void flipModule(byte moduleIndex, boolean shouldShowYellow) {
-  for (byte columnIndex = 0; columnIndex < getColumnsOnModule(moduleIndex); columnIndex++) {
+  for (byte columnIndex = getStartColumnOfModule(moduleIndex); columnIndex < MODULE_WIDTH; columnIndex++) {
     flipColumn(moduleIndex, columnIndex, shouldShowYellow);
   }
 }
 
-byte getColumnsOnModule(byte moduleIndex) {
+byte getStartColumnOfModule(byte moduleIndex) {
   if (moduleIndex == 0) {
-    return MODULE_WIDTH_SMALL;
+    return COLUMN_OFFSET_SHORT_MODULE;
   } else {
-    return MODULE_WIDTH_LARGE;
+    return 0;
   }
 }
 
@@ -192,6 +192,6 @@ void setup() {
   digitalWrite(12, LOW);
   digitalWrite(13, LOW);
 
-  delay(2000);
+  delay(5000);
 }
 
