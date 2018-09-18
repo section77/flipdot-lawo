@@ -1,28 +1,28 @@
 // pin assignments
 // 
-// pin on arduino header      // pin on column driver input header
+// pin on lolin32 header      // pin on column driver input header
 // -------------------------- // ---------------------------------
 //         GND                // (1-4, 31-34)
-const byte DATA = 0;          // (8)
-const byte COLUMN_1 = 1;      // (7)
-const byte COLUMN_2 = 2;      // (9)
-const byte COLUMN_3 = 3;      // (11)
-const byte COLUMN_4 = 4;      // (13)
-const byte COLUMN_5 = 5;      // (15)
-const byte ROW_1 = 6;         // (17)
-const byte ROW_2 = 7;         // (19)
-const byte ROW_3 = 8;         // (21)
-const byte ROW_4 = 9;         // (23)
-const byte ENABLE_SET = 10;   // (10)
-const byte ENABLE_RESET = 11; // (12)
-const byte MODULE_1 = 12;     // (20)
-const byte MODULE_2 = 13;     // (22)
-//         MODULE_3           // (24)
-//         MODULE_4           // (26)
-//         MODULE_5           // (28)
+const byte DATA = 15;         // (8)
+const byte COLUMN_1 = 2;      // (7)
+const byte COLUMN_2 = 0;      // (9)
+const byte COLUMN_3 = 4;      // (11)
+const byte COLUMN_4 = 16;     // (13)
+const byte COLUMN_5 = 17;     // (15)
+const byte ROW_1 = 5;         // (17)
+const byte ROW_2 = 18;        // (19)
+const byte ROW_3 = 23;        // (21)
+const byte ROW_4 = 19;        // (23)
+const byte ENABLE_SET = 21;   // (10)
+const byte ENABLE_RESET = 22; // (12)
+const byte MODULE_1 = 13;     // (20)
+const byte MODULE_2 = 12;     // (22)
+const byte MODULE_3 = 14;     // (24)
+const byte MODULE_4 = 27;     // (26)
+const byte MODULE_5 = 26;     // (28)
 
 // helper constants
-const byte MODULE_PINS[] = {MODULE_1, MODULE_2}; // TODO extend when a board with enough i/o ports (e.g. ESP32) is available
+const byte MODULE_PINS[] = {MODULE_1, MODULE_2, MODULE_3, MODULE_4, MODULE_5};
 const byte COLUMN_BIT_PINS[] = {COLUMN_1, COLUMN_2, COLUMN_3, COLUMN_4, COLUMN_5};
 const byte ROW_BIT_PINS[] = {ROW_1, ROW_2, ROW_3, ROW_4};
 const byte MODULE_HEIGHT = 16;
@@ -162,35 +162,41 @@ void flipDotBlackAtModule(byte moduleIndex) {
 }
 
 void setup() {
-  pinMode(0, OUTPUT);
-  pinMode(1, OUTPUT);
-  pinMode(2, OUTPUT);
-  pinMode(3, OUTPUT);
-  pinMode(4, OUTPUT);
-  pinMode(5, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(7, OUTPUT);
-  pinMode(8, OUTPUT);
-  pinMode(9, OUTPUT);
-  pinMode(10, OUTPUT);
-  pinMode(11, OUTPUT);
-  pinMode(12, OUTPUT);
-  pinMode(13, OUTPUT);
+  pinMode(DATA, OUTPUT);
+  pinMode(COLUMN_1, OUTPUT);
+  pinMode(COLUMN_2, OUTPUT);
+  pinMode(COLUMN_3, OUTPUT);
+  pinMode(COLUMN_4, OUTPUT);
+  pinMode(COLUMN_5, OUTPUT);
+  pinMode(ROW_1, OUTPUT);
+  pinMode(ROW_2, OUTPUT);
+  pinMode(ROW_3, OUTPUT);
+  pinMode(ROW_4, OUTPUT);
+  pinMode(ENABLE_SET, OUTPUT);
+  pinMode(ENABLE_RESET, OUTPUT);
+  pinMode(MODULE_1, OUTPUT);
+  pinMode(MODULE_2, OUTPUT);
+  pinMode(MODULE_3, OUTPUT);
+  pinMode(MODULE_4, OUTPUT);
+  pinMode(MODULE_5, OUTPUT);
 
-  digitalWrite(0, LOW);
-  digitalWrite(1, LOW);
-  digitalWrite(2, LOW);
-  digitalWrite(3, LOW);
-  digitalWrite(4, LOW);
-  digitalWrite(5, LOW);
-  digitalWrite(6, LOW);
-  digitalWrite(7, LOW);
-  digitalWrite(8, LOW);
-  digitalWrite(9, LOW);
-  digitalWrite(10, LOW);
-  digitalWrite(11, LOW);
-  digitalWrite(12, LOW);
-  digitalWrite(13, LOW);
+  digitalWrite(DATA, LOW);
+  digitalWrite(COLUMN_1, LOW);
+  digitalWrite(COLUMN_2, LOW);
+  digitalWrite(COLUMN_3, LOW);
+  digitalWrite(COLUMN_4, LOW);
+  digitalWrite(COLUMN_5, LOW);
+  digitalWrite(ROW_1, LOW);
+  digitalWrite(ROW_2, LOW);
+  digitalWrite(ROW_3, LOW);
+  digitalWrite(ROW_4, LOW);
+  digitalWrite(ENABLE_SET, LOW);
+  digitalWrite(ENABLE_RESET, LOW);
+  digitalWrite(MODULE_1, LOW);
+  digitalWrite(MODULE_2, LOW);
+  digitalWrite(MODULE_3, LOW);
+  digitalWrite(MODULE_4, LOW);
+  digitalWrite(MODULE_5, LOW);
 
   delay(5000);
 }
