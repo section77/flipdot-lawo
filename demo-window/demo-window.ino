@@ -32,7 +32,7 @@ const byte DISPLAY_WIDTH = 126;
 
 // program config
 const int PAUSE_BETWEEN_DOT_FLIPS_IN_MS = 2; // lowest value to reliably flip all dots with 5A power supply (lights off)
-const int MAX_PAUSE_BETWEEN_ACTIONS = 15000;
+const int MAX_PAUSE_BETWEEN_ACTIONS = 5000;
 
 void loop() {
   sendOrFlicker(random(13));
@@ -298,19 +298,19 @@ void showLinesRight() {
   flipDotSimple(105, 5, true);
   flipDotSimple(105, 6, true);
   flipDotSimple(105, 7, true);
-  for (byte i = 105; i < 126; i++) {
+  for (int i = 105; i < 126; i++) {
     flipDotSimple(i, 8, true);
   }
 
   // 1st from top
   flipDotSimple(82, 3, true);
   flipDotSimple(82, 2, true);
-  for (byte i = 82; i < 117; i++) {
+  for (int i = 82; i < 117; i++) {
     flipDotSimple(i, 1, true);
   }
   flipDotSimple(116, 2, true);
   flipDotSimple(116, 3, true);
-  for (byte i = 116; i < 126; i++) {
+  for (int i = 116; i < 126; i++) {
     flipDotSimple(i, 4, true);
   }
 
@@ -333,7 +333,7 @@ void showLinesRight() {
   flipDotSimple(105, 13, true);
   flipDotSimple(105, 12, true);
   flipDotSimple(105, 11, true);
-  for (byte i = 105; i < 126; i++) {
+  for (int i = 105; i < 126; i++) {
     flipDotSimple(i, 10, true);
   }
   
@@ -350,7 +350,7 @@ void showLinesRight() {
   flipDotSimple(112, 5, true);
   flipDotSimple(113, 5, true);
   flipDotSimple(114, 5, true);
-  for (byte i = 114; i < 126; i++) {
+  for (int i = 114; i < 126; i++) {
     flipDotSimple(i, 6, true);
   }
 }
@@ -364,18 +364,18 @@ void sendOnLineRight1() {
   toggleDot(82, 4);
   toggleDot(82, 3);
   toggleDot(82, 2);
-  for (byte i = 82; i < 117; i++) {
+  for (int i = 82; i < 117; i++) {
     toggleDot(i, 1);
   }
   toggleDot(116, 2);
   toggleDot(116, 3);
-  for (byte i = 116; i < 126; i++) {
+  for (int i = 116; i < 126; i++) {
     toggleDot(i, 4);
   }
 }
 
 void sendOnLineRight2() {
-  for (byte i = 125; i > 113; i--) {
+  for (int i = 125; i > 113; i--) {
     toggleDot(i, 6);
   }
   toggleDot(114, 5);
@@ -386,19 +386,19 @@ void sendOnLineRight2() {
 }
 
 void sendOnLineRight3() {
-  for (byte i = 90; i < 106; i++) {
+  for (int i = 90; i < 106; i++) {
     toggleDot(i, 4);
   }
   toggleDot(105, 5);
   toggleDot(105, 6);
   toggleDot(105, 7);
-  for (byte i = 105; i < 126; i++) {
+  for (int i = 105; i < 126; i++) {
     toggleDot(i, 8);
   }
 }
 
 void sendOnLineRight4() {
-  for (byte i = 125; i > 104; i--) {
+  for (int i = 125; i > 104; i--) {
     toggleDot(i, 10);
   }
   toggleDot(105, 11);
@@ -419,20 +419,20 @@ void showLinesLeft() {
   flipDotSimple(25, 12, true);
   flipDotSimple(24, 12, true);
   flipDotSimple(23, 12, true);
-  for (byte i = 23; i >= 0; i--) {
+  for (int i = 23; i >= 0; i--) {
     flipDotSimple(i, 11, true);
   }
 
   // 2nd from top
   flipDotSimple(52, 3, true);
-  for (byte i = 52; i > 13; i--) {
+  for (int i = 52; i > 13; i--) {
     flipDotSimple(i, 2, true);
   }
   flipDotSimple(14, 3, true);
   flipDotSimple(14, 4, true);
   flipDotSimple(14, 5, true);
   flipDotSimple(14, 6, true);
-  for (byte i = 14; i >= 0; i--) {
+  for (int i = 14; i >= 0; i--) {
     flipDotSimple(i, 7, true);
   }
 
@@ -449,7 +449,7 @@ void showLinesLeft() {
   flipDotSimple(17, 7, true);
   flipDotSimple(16, 7, true);
   flipDotSimple(16, 8, true);
-  for (byte i = 16; i >= 0; i--) {
+  for (int i = 16; i >= 0; i--) {
     flipDotSimple(i, 9, true);
   }
 
@@ -468,13 +468,13 @@ void showLinesLeft() {
   flipDotSimple(12, 2, true);
   flipDotSimple(12, 3, true);
   flipDotSimple(12, 4, true);
-  for (byte i = 12; i >= 0; i--) {
+  for (int i = 12; i >= 0; i--) {
     flipDotSimple(i, 5, true);
   }
 }
 
 void sendOnLineLeft1() {
-  for (byte i = 0; i < 13; i++) {
+  for (int i = 0; i < 13; i++) {
     toggleDot(i, 5);
   }
   toggleDot(12, 4);
@@ -491,20 +491,20 @@ void sendOnLineLeft2() {
   toggleDot(52, 5);
   toggleDot(52, 4);
   toggleDot(52, 3);
-  for (byte i = 52; i > 13; i--) {
+  for (int i = 52; i > 13; i--) {
     toggleDot(i, 2);
   }
   toggleDot(14, 3);
   toggleDot(14, 4);
   toggleDot(14, 5);
   toggleDot(14, 6);
-  for (byte i = 14; i >= 0; i--) {
+  for (int i = 14; i >= 0; i--) {
     toggleDot(i, 7);
   }
 }
 
 void sendOnLineLeft3() {
-  for (byte i = 0; i < 17; i++) {
+  for (int i = 0; i < 17; i++) {
     toggleDot(i, 9);
   }
   toggleDot(16, 8);
@@ -524,7 +524,7 @@ void sendOnLineLeft4() {
   toggleDot(25, 12);
   toggleDot(24, 12);
   toggleDot(23, 12);
-  for (byte i = 23; i >= 0; i--) {
+  for (int i = 23; i >= 0; i--) {
     toggleDot(i, 11);
   }
 }
@@ -570,13 +570,13 @@ void sendOnIDotLine() {
 // helper functions
 
 void flipDisplay(boolean shouldShowYellow) {
-  for (byte moduleIndex = 0; moduleIndex < sizeof(MODULE_PINS); moduleIndex++) {
+  for (int moduleIndex = 0; moduleIndex < sizeof(MODULE_PINS); moduleIndex++) {
     flipModule(moduleIndex, shouldShowYellow);
   }
 }
 
 void flipModule(byte moduleIndex, boolean shouldShowYellow) {
-  for (byte columnIndex = getStartColumnOfModule(moduleIndex); columnIndex < MODULE_WIDTH; columnIndex++) {
+  for (int columnIndex = getStartColumnOfModule(moduleIndex); columnIndex < MODULE_WIDTH; columnIndex++) {
     flipColumn(moduleIndex, columnIndex, shouldShowYellow);
   }
 }
@@ -590,7 +590,7 @@ byte getStartColumnOfModule(byte moduleIndex) {
 }
 
 void flipColumn(byte moduleIndex, byte columnIndex, boolean shouldShowYellow) {
-  for (byte rowIndex = 0; rowIndex < MODULE_HEIGHT; rowIndex++) {
+  for (int rowIndex = 0; rowIndex < MODULE_HEIGHT; rowIndex++) {
     flipDot(moduleIndex, rowIndex, columnIndex, shouldShowYellow);
   }
 }
@@ -626,7 +626,7 @@ void flipDot(byte moduleIndex, byte rowIndex, byte columnIndex, boolean shouldSh
 }
 
 void setRowAddress(byte rowIndex) {
-  for (byte rowIndexBit = 0; rowIndexBit < sizeof(ROW_BIT_PINS); rowIndexBit++) {
+  for (int rowIndexBit = 0; rowIndexBit < sizeof(ROW_BIT_PINS); rowIndexBit++) {
     boolean isBitSet = bitRead(rowIndex, rowIndexBit);
     if (isBitSet) {
       digitalWrite(ROW_BIT_PINS[rowIndexBit], HIGH);
@@ -637,7 +637,7 @@ void setRowAddress(byte rowIndex) {
 }
 
 void setColumnAddress(byte columnIndex) {
-  for (byte columnIndexBit = 0; columnIndexBit < sizeof(COLUMN_BIT_PINS); columnIndexBit++) {
+  for (int columnIndexBit = 0; columnIndexBit < sizeof(COLUMN_BIT_PINS); columnIndexBit++) {
     boolean isBitSet = bitRead(columnIndex, columnIndexBit);
     if (isBitSet) {
       digitalWrite(COLUMN_BIT_PINS[columnIndexBit], HIGH);
