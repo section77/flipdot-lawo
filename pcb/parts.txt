@@ -1,0 +1,86 @@
+Teileliste
+
+Netzteil MeanWell 8.4A 24V
+1x
+44,86€
+MW RSP-200-24
+https://www.reichelt.de/schaltnetzteil-geschlossen-200-w-24-v-8-4-a-mw-rsp-200-24-p147909.html?&trstct=pos_10&nbc=1
+
+
+Schaltregler 24V->5V
+1x
+6,65€
+TSR 1-2450
+https://secure.reichelt.de/dc-dc-wandler-tsr-1-1-w-5-v-1000-ma-sil-to-220-tsr-1-2450-p116850.html?SEARCH=TSR%201-2450&&r=1
+
+Halter Feinsicherung
+1x
+0,45€
+SCH 0031.8201.G
+https://www.reichelt.de/sicherungshalter-fuer-5-x-20-mm-250-v-10-a-schwarz-sch-0031-8201-g-p243301.html?&trstct=pos_3&nbc=1
+
+ggf. neue Feinsicherung
+1x
+0,33€
+TR 0,5A
+https://www.reichelt.de/feinsicherung-5x20mm-traege-0-5a-tr-0-5a-p21784.html?&trstct=pol_1&nbc=1
+
+Pegelwandler 3.3V->5V
+3x
+0,45€
+74HCT 245
+https://www.reichelt.de/octal-bus-puffer-3-state-4-5--5-5-v-dil-20-74hct-245-p3356.html?search=74hct245
+
+ElKo 10V 220uF radial
+2x
+0,11€
+M-A 220U 16
+https://www.reichelt.de/elko-radial-220-f-16-v-rm-2-5-85-c-2000h-20--m-a-220u-16-p199835.html?&trstct=pos_1&nbc=1
+
+ElKo 50V 4,7 µF radial
+2x
+0,07€
+M-A 4,7U 50
+https://www.reichelt.de/elko-radial-4-7-f-50-v-rm-2-0-85-c-2000h-20--m-a-4-7u-50-p199808.html?&trstct=pos_3&nbc=1
+
+KerKo 50V 100 nF
+3x
+0,10€
+C3X7R 100NB50
+https://www.reichelt.de/vielschicht-kerko-100nf-50v-125-c-c3x7r-100nb50-p206878.html?&trstct=pol_2&nbc=1
+
+Spule
+1x
+0,44€
+L-07HCP 10µ
+https://www.reichelt.de/stehende-induktivitaet-07hcp-ferrit-10--l-07hcp-10--p86398.html?&trstct=pol_0&nbc=1
+
+Diode
+1x
+0,05€
+SB 150
+https://www.reichelt.de/schottkydiode-50-v-1-a-do-41-sb-150-p16027.html?&trstct=pos_10&nbc=1
+
+Buchsenleiste 1x20
+2x
+0,29€
+BL 1X20G8 2,54
+https://www.reichelt.de/20pol-buchsenleiste-gerade-rm-2-54-h-8-5mm-bl-1x20g8-2-54-p51827.html
+
+Stiftleiste 1x36
+1x
+0,18€
+SL 1X36G 2,54
+https://www.reichelt.de/36pol-stiftleiste-gerade-rm-2-54-sl-1x36g-2-54-p19504.html?&trstct=pol_4&nbc=1
+
+Wannenstecker 34-pol.
+1x
+1,85€
+HAN 534 6324
+https://www.reichelt.de/wannenstecker-34-pol-gerade-han-534-6324-p175355.html?&trstct=pol_3&nbc=1
+
+Anschlussklemme 1x02
+1x
+0,23€
+AKL 101-02
+https://www.reichelt.de/anschlussklemme-2-pol-2-mm-rm-5-08-akl-101-02-p36605.html?&trstct=pol_10&nbc=1
