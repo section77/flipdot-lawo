@@ -1,6 +1,6 @@
 # Flip Dot Display Emulator
 
-This is a simple tool to test the ESP32-Code on a PC. The Python script reads the ESP32 console-output from the USB port and then toggles TK checkboxes.
+This is a simple tool to test the ESP32-Code on a PC. The Python script reads the ESP32 console-output from the USB port and then toggles the corresponding 'pixels' on the screen.
 
 ## Geting started
 
