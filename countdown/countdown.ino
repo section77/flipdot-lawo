@@ -38,12 +38,24 @@ const byte MODULE_WIDTH = 28;
 const byte COLUMN_OFFSET_SHORT_MODULE = 14;
 const byte DISPLAY_WIDTH = 126;
 
+const byte MODE_LEFT_TO_RIGHT = 1;
+const byte MODE_RIGHT_TO_LEFT = 2;
+const byte MODE_CURTAIN_OUT = 3;
+
 // program config
 const int PAUSE_BETWEEN_DOT_FLIPS_IN_MS = 2; // lowest value to reliably flip all dots with 5A power supply (lights off)
 const int MAX_PAUSE_BETWEEN_ACTIONS = 5000;
 
-// Das lang ersehnte Ereignis
-const long timeJubilee = 1700000000;
+// Event time
+long timeJubilee = 1700000000;
+// Heilig Abend 20:00 CET
+long timeJubilee2 = 1703444400;
+
+// internal storage for the current state of the display
+boolean dotmatrix[DISPLAY_WIDTH][MODULE_HEIGHT];
+
+// last time the clock was updated
+long lastUpdate = 0;
 
 // Define NTP Client to get time
 WiFiUDP ntpUDP;
@@ -105,21 +117,32 @@ void setup() {
   // GMT 0 = 0
   timeClient.setTimeOffset(0);
   timeClient.update();  
+  lastUpdate = timeClient.getEpochTime();
 
+  // TEST
+  // timeJubilee = lastUpdate + 25;
+
+  // Reset Display to blank
+  for (int x = 0; x < DISPLAY_WIDTH; x++) {
+    for (int y = 0; y < MODULE_HEIGHT; y++) {
+      flipDotSimple(x, y, false, true);
+    }
+  }
 }
+
 
 void loop() {
 
-  char txtCurTime[18];
-  char txtTime2Wait[18];
-  char txtCurTimeOld[18];
-  char txtTime2WaitOld[18];
+  char txtCurTime[19];
+  char txtTime2Wait[19];
+  // char txtCurTimeOld[18];
+  // char txtTime2WaitOld[18];
 
   // Display löschen
-  flipDisplay(false);
+  flipDisplay(false, MODE_CURTAIN_OUT);
   // section77 Schriftzug anzeigen
   showName(true);
-  delay(1500);
+  delay(2000);
 
   // section77 Schriftzug wieder löschen
   showName(false);
@@ -127,36 +150,76 @@ void loop() {
   // Countdown bis zu DEM EREIGNIS anzeigen
   long curTime = timeClient.getEpochTime();
   long timeToWait = timeJubilee - curTime;
-  sprintf(txtCurTime, "%15ss", printfcomma(curTime));
-  sprintf(txtTime2Wait, " noch %9ss", printfcomma(timeToWait));
-  showText6x8(0, 0, txtCurTime, true);
-  showText6x8(0, 8, txtTime2Wait, true);
-  memcpy(txtCurTimeOld, txtCurTime, 18);
-  memcpy(txtTime2WaitOld, txtTime2Wait, 18);
+  sprintf(txtTime2Wait, "Noch %12ss", printfcomma(timeToWait));
+  if (timeJubilee == timeJubilee2) {
+    sprintf(txtCurTime, "%s", " bis Weihnachten  ");
+    showText6x8(2, 0, txtTime2Wait, true);
+    showText6x8(2, 8, txtCurTime, true);
+  } else {
+    sprintf(txtCurTime, " %15ss", printfcomma(curTime));
+    showText6x8(0, 0, txtCurTime, true);
+    showText6x8(0, 8, txtTime2Wait, true);
+  }
+  // memcpy(txtCurTimeOld, txtCurTime, 18);
+  // memcpy(txtTime2WaitOld, txtTime2Wait, 18);
 
-  for (int i=0; i<15; i++) {
+  // we don't want to miss THE EVENT
+  int loops = timeToWait < 60 ? 80: 15;
+
+  for (int i=0; i<loops; i++) {
     long curTime = timeClient.getEpochTime();
     long timeToWait = timeJubilee - curTime;
-    sprintf(txtCurTime, "%15ss", printfcomma(curTime));
-    sprintf(txtTime2Wait, " noch %9ss", printfcomma(timeToWait));
-
-    for (int pos=0; pos < sizeof(txtCurTime); pos++) {
-      if (txtCurTime[pos] != txtCurTimeOld[pos]) {
-        showText6x8(pos*6, 0, (String)txtCurTimeOld[pos], false); 
-        showText6x8(pos*6, 0, (String)txtCurTime[pos], true);
-      }
-      if (txtTime2Wait[pos] != txtTime2WaitOld[pos]) {
-        showText6x8(pos*6, 8, (String)txtTime2WaitOld[pos], false); 
-        showText6x8(pos*6, 8, (String)txtTime2Wait[pos], true);
-      }
+    if (timeToWait < 0) {
+      happyDings();
+      break;
     }
-    delay(950);
+    sprintf(txtTime2Wait, "Noch %12ss", printfcomma(timeToWait));
+    if (timeJubilee == timeJubilee2) {
+      sprintf(txtCurTime, "%s", " bis Weihnachten  ");
+      showText6x8(2, 0, txtTime2Wait, true);
+      showText6x8(2, 8, txtCurTime, true);
+    } else {
+      sprintf(txtCurTime, " %15ss", printfcomma(curTime));
+      showText6x8(0, 0, txtCurTime, true);
+      showText6x8(0, 8, txtTime2Wait, true);
+    }
 
-    memcpy(txtCurTimeOld, txtCurTime, sizeof(txtCurTime));
-    memcpy(txtTime2WaitOld, txtTime2Wait, sizeof(txtTime2Wait));
+    // for (int pos=0; pos < sizeof(txtCurTime); pos++) {
+    //   if (txtCurTime[pos] != txtCurTimeOld[pos]) {
+    //     showText6x8(pos*6, 0, (String)txtCurTimeOld[pos], false); 
+    //     showText6x8(pos*6, 0, (String)txtCurTime[pos], true);
+    //   }
+    //   if (txtTime2Wait[pos] != txtTime2WaitOld[pos]) {
+    //     showText6x8(pos*6, 8, (String)txtTime2WaitOld[pos], false); 
+    //     showText6x8(pos*6, 8, (String)txtTime2Wait[pos], true);
+    //   }
+    // }
+    if (timeClient.getEpochTime() - lastUpdate > 3600) {
+      timeClient.update();
+    }
+    while (timeClient.getEpochTime() == curTime) {}
+
+    // memcpy(txtCurTimeOld, txtCurTime, sizeof(txtCurTime));
+    // memcpy(txtTime2WaitOld, txtTime2Wait, sizeof(txtTime2Wait));
   }
 
   //delay(random(MAX_PAUSE_BETWEEN_ACTIONS));
+}
+
+
+void happyDings() {
+  flipDisplay(false, MODE_CURTAIN_OUT);
+  showText6x8(0, 4, "Happy New", true);
+  delay(1000);
+  int pos = 10;
+  while (pos < 13) {
+    showText6x8(pos * 6 , 4, ".", true);
+    delay(1000);
+    pos++;
+  }
+  showText6x8((pos+1) * 6 , 4, "Dings!", true);
+  delay(5000);
+  timeJubilee = timeJubilee2;
 }
 
 // custom drawing
@@ -166,10 +229,12 @@ void showText6x8(int posX, int posY, String text, bool set) {
     char character = text.charAt(i);
     for (int n=0; n < 8; n++) {
       for (int bit=2; bit < 8; bit++) {
-        if (font6x8_basic[character][
-        n] & (1 << bit)) {
+        if (font6x8_basic[character][n] & (1 << bit)) {
           flipDotSimple(posX + i * 6 + bit, posY + n, set);
+        } else {
+          flipDotSimple(posX + i * 6 + bit, posY + n, !set);
         }
+
       }
     }
   }
@@ -179,7 +244,6 @@ void showText8x8(int posX, int posY, String text) {
   for (int i = 0; i < text.length(); i++) {
     char character = text.charAt(i);
     for (int n=0; n < 8; n++) {
-      //Serial.println(byte(font8x8_basic[character][n]));
       for (int bit=0; bit < 8; bit++) {
         flipDotSimple(posX + i * 8 + bit, posY + n, font8x8_basic[character][n] & (1 << bit));
       }
@@ -734,11 +798,36 @@ void sendOnIDotLine() {
 
 // helper functions
 
+void flipColumn(int x, boolean shouldShowYellow) {
+  for (int y = 0; y < MODULE_HEIGHT; y++) {
+    flipDotSimple(x, y, shouldShowYellow);
+  }
+}
+
 void flipDisplay(boolean shouldShowYellow) {
-  for (int x = 0; x < DISPLAY_WIDTH; x++) {
-    for (int y = 0; y < MODULE_HEIGHT; y++) {
-      flipDotSimple(x, y, shouldShowYellow);
-    }
+  flipDisplay(shouldShowYellow, MODE_LEFT_TO_RIGHT);
+}
+
+void flipDisplay(boolean shouldShowYellow, byte mode) {
+  switch (mode) {
+    case MODE_LEFT_TO_RIGHT:
+      for (int x = 0; x < DISPLAY_WIDTH; x++) {
+        flipColumn(x, shouldShowYellow);
+     }
+      break;
+    case MODE_RIGHT_TO_LEFT:
+      for (int x = DISPLAY_WIDTH - 1; x >= 0; x--) {
+        flipColumn(x, shouldShowYellow);
+      }
+      break;
+    case MODE_CURTAIN_OUT:
+      for (int a = 0; a < DISPLAY_WIDTH / 2; a++) {
+        int x = DISPLAY_WIDTH / 2 - 1 - a;
+        flipColumn(x, shouldShowYellow);
+        x = DISPLAY_WIDTH / 2 + a;
+        flipColumn(x, shouldShowYellow);
+      }
+
   }
 }
 
@@ -769,18 +858,23 @@ void toggleDot(byte x, byte y) {
 }
 
 // basic dot flipping stuff
-
 void flipDotSimple(byte x, byte y, boolean shouldShowYellow) {
+  flipDotSimple(x, y, shouldShowYellow, false);
+}
+
+void flipDotSimple(byte x, byte y, boolean shouldShowYellow, boolean force) {
   if (x >= DISPLAY_WIDTH || y >= MODULE_HEIGHT) {
     return;
   }
 
-  Serial.printf("{\"row\": %d, \"column\": %d, \"status\": %d}\n", y, x, shouldShowYellow);
-
   byte moduleIndex = x / MODULE_WIDTH;
   byte columnOnModule = x % MODULE_WIDTH;
 
-  flipDot(moduleIndex, y, columnOnModule, shouldShowYellow);
+  if (dotmatrix[x][y] != shouldShowYellow || force) {
+    dotmatrix[x][y] = shouldShowYellow;
+    flipDot(moduleIndex, y, columnOnModule, shouldShowYellow);
+    Serial.printf("{\"row\": %d, \"column\": %d, \"status\": %d}\n", y, x, shouldShowYellow);
+  }
 }
 
 void flipDot(byte moduleIndex, byte rowIndex, byte columnIndex, boolean shouldShowYellow) {

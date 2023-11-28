@@ -17,7 +17,7 @@ win.resizable(False, False)
 WIDTH = 126
 HEIGHT = 16
 
-display = tk.Canvas(win, width = WIDTH * 10, height = HEIGHT * 10, bg='black')
+display = tk.Canvas(win, width=WIDTH * 10, height=HEIGHT * 10, bg='black')
 display.pack(anchor=tk.CENTER, expand=True)
 
 
@@ -35,6 +35,7 @@ def connectToUSB():
     ser.flushOutput()
     return ser
 
+
 # -----------------------------------------------
 # MAIN LOOP
 # -----------------------------------------------
@@ -42,7 +43,7 @@ def readSerial():
 
     sleep(2)
 
-    print ('Searching for ESP')
+    print('Searching for ESP')
     ser = connectToUSB()
 
     # Liest die Daten von der seriellen Schnittstelle
@@ -51,20 +52,24 @@ def readSerial():
     i = 0
     while True:
         data_raw = None
-        while data_raw == None:
+        while data_raw is None:
             try:
                 data_raw = ser.readline()
             except serial.serialutil.SerialException:
                 print("Connection lost")
                 ser = None
-                while (ser == None):
+                while (ser is None):
                     ser = connectToUSB()
                 continue
 
         if len(data_raw) > 0:
             try:
                 data = json.loads(data_raw)
-            except:
+            except json.JSONDecodeError:
+                print (data_raw)
+                continue
+            if (not isinstance(data, dict)):
+                print (data_raw)
                 continue
             x = data['column']
             y = data['row']
@@ -73,7 +78,9 @@ def readSerial():
             else:
                 color = 'black'
 
-            display.create_rectangle((x * 10 + 1, y * 10 + 1), (x * 10 + 9, y * 10 + 9), fill = color)
+            display.create_rectangle(
+                (x * 10 + 1, y * 10 + 1),
+                (x * 10 + 9, y * 10 + 9), fill=color)
         i += 1
 
 
