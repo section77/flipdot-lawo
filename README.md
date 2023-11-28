@@ -4,11 +4,12 @@ Code repository for controlling the large Lawo flipdot display of Section 77.
 
 ## Contents
 
-Currently the following Arduino sketches:
+Currently this repository contains the following Arduino sketches:
 
 * testpatterns: the four test patterns (all yellow, all black, alternating yellow/black, alternating black/yellow) of the OEM controller board
 * random: flips random dots in random direction
 * demo-window: displays a custom section77 logo with some random actions
+* countdown: displays a countdown to UNIX timestamp 1,700,000,000 
 
 ## Hardware
 
