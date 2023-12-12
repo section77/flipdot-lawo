@@ -138,8 +138,19 @@ void loop() {
   // char txtCurTimeOld[18];
   // char txtTime2WaitOld[18];
 
-  // Display löschen
-  flipDisplay(false, MODE_CURTAIN_OUT);
+  if (timeClient.getEpochTime() - lastUpdate > 3600) {
+    timeClient.update();
+    lastUpdate = timeClient.getEpochTime();
+    // Display löschen
+    for (int x = 0; x < DISPLAY_WIDTH; x++) {
+      for (int y = 0; y < MODULE_HEIGHT; y++) {
+        flipDotSimple(x, y, false, true);
+      }
+    }
+  } else {
+    flipDisplay(false, MODE_CURTAIN_OUT);
+  }
+ 
   // section77 Schriftzug anzeigen
   showName(true);
   delay(2000);
@@ -160,8 +171,6 @@ void loop() {
     showText6x8(0, 0, txtCurTime, true);
     showText6x8(0, 8, txtTime2Wait, true);
   }
-  // memcpy(txtCurTimeOld, txtCurTime, 18);
-  // memcpy(txtTime2WaitOld, txtTime2Wait, 18);
 
   // we don't want to miss THE EVENT
   int loops = timeToWait < 60 ? 80: 15;
@@ -184,26 +193,10 @@ void loop() {
       showText6x8(0, 8, txtTime2Wait, true);
     }
 
-    // for (int pos=0; pos < sizeof(txtCurTime); pos++) {
-    //   if (txtCurTime[pos] != txtCurTimeOld[pos]) {
-    //     showText6x8(pos*6, 0, (String)txtCurTimeOld[pos], false); 
-    //     showText6x8(pos*6, 0, (String)txtCurTime[pos], true);
-    //   }
-    //   if (txtTime2Wait[pos] != txtTime2WaitOld[pos]) {
-    //     showText6x8(pos*6, 8, (String)txtTime2WaitOld[pos], false); 
-    //     showText6x8(pos*6, 8, (String)txtTime2Wait[pos], true);
-    //   }
-    // }
-    if (timeClient.getEpochTime() - lastUpdate > 3600) {
-      timeClient.update();
-    }
     while (timeClient.getEpochTime() == curTime) {}
 
-    // memcpy(txtCurTimeOld, txtCurTime, sizeof(txtCurTime));
-    // memcpy(txtTime2WaitOld, txtTime2Wait, sizeof(txtTime2Wait));
   }
 
-  //delay(random(MAX_PAUSE_BETWEEN_ACTIONS));
 }
 
 
